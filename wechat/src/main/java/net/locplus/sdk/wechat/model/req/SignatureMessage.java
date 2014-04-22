@@ -13,20 +13,36 @@ public class SignatureMessage {
     /**
      * 时间戳
      */
-    private long timestamp;
+    private String timestamp;
     /**
      * 随机数
      */
-    private int nonce;
+    private String nonce;
     /**
      * 随机字符串
      */
     private String echostr;
 
-    public SignatureMessage(String signature, long timestamp, int nonce, String echostr) {
+    public SignatureMessage(String signature, String timestamp, String nonce, String echostr) {
         this.signature = signature;
         this.timestamp = timestamp;
         this.nonce = nonce;
         this.echostr = echostr;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public String getNonce() {
+        return nonce;
+    }
+
+    public String getEchostr() {
+        return echostr;
     }
 }

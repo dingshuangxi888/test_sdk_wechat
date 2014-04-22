@@ -1,7 +1,6 @@
 package net.locplus.sdk.wechat.model.resp;
 
 import net.locplus.sdk.wechat.model.Image;
-import net.locplus.sdk.wechat.model.req.BaseRequestMessage;
 
 /**
  * 回复图片消息

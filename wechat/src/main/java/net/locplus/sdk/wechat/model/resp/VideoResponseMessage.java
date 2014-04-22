@@ -1,7 +1,6 @@
 package net.locplus.sdk.wechat.model.resp;
 
 import net.locplus.sdk.wechat.model.Video;
-import net.locplus.sdk.wechat.model.req.BaseRequestMessage;
 
 /**
  * 回复视频消息

@@ -1,13 +1,9 @@
 package net.locplus.sdk.wechat.model.req;
 
 /**
- * 接受普通消息 基类
- * http://mp.weixin.qq.com/wiki/index.php?title=%E6%8E%A5%E6%94%B6%E6%99%AE%E9%80%9A%E6%B6%88%E6%81%AF
- * 当普通微信用户向公众账号发消息时，微信服务器将POST消息的XML数据包到开发者填写的URL上。各消息类型的推送XML数据包结构如下。
- * Created by Administrator on 2014/4/18.
+ * Created by Administrator on 2014/4/22.
  */
 public class BaseRequestMessage {
-
     /**
      * 开发者微信号
      */
@@ -24,10 +20,6 @@ public class BaseRequestMessage {
      * 消息类型
      */
     private String MsgType;
-    /**
-     * 消息id，64位整型
-     */
-    private long MsgId;
 
     public String getToUserName() {
         return ToUserName;
@@ -59,13 +51,5 @@ public class BaseRequestMessage {
 
     public void setMsgType(String msgType) {
         MsgType = msgType;
-    }
-
-    public long getMsgId() {
-        return MsgId;
-    }
-
-    public void setMsgId(long msgId) {
-        MsgId = msgId;
     }
 }
