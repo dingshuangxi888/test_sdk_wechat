@@ -1,13 +1,7 @@
 package net.locplus.sdk.wechat.service;
 
-import com.thoughtworks.xstream.XStream;
-import net.locplus.sdk.wechat.model.req.AllRequestMessage;
-import net.locplus.sdk.wechat.model.req.BaseRequestMessage;
 import net.locplus.sdk.wechat.model.req.SignatureMessage;
 import net.locplus.sdk.wechat.util.WeChatUtil;
-import net.locplus.sdk.wechat.util.XStreamFactory;
-
-import javax.xml.crypto.dsig.spec.XSLTTransformParameterSpec;
 
 /**
  * Created by Administrator on 2014/4/21.

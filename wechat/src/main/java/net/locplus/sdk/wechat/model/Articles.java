@@ -1,7 +1,5 @@
 package net.locplus.sdk.wechat.model;
 
-import java.util.List;
-
 /**
  * 多条图文消息信息
  * Created by Administrator on 2014/4/18.

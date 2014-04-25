@@ -2,7 +2,6 @@ package net.locplus.sdk.wechat.handler;
 
 import net.locplus.sdk.wechat.model.Articles;
 import net.locplus.sdk.wechat.model.Image;
-import net.locplus.sdk.wechat.model.req.BaseRequestMessage;
 import net.locplus.sdk.wechat.model.req.event.*;
 import net.locplus.sdk.wechat.model.req.normal.*;
 import net.locplus.sdk.wechat.model.resp.BaseResponseMessage;
@@ -28,9 +27,9 @@ public class DefaultMessageProcessingHandler implements MessageProcessingHandler
     @Override
     public void onTextMessageReceived(TextRequestMessage requestMessage) {
         TextResponseMessage message = new TextResponseMessage();
-        message.setToUserName("dean");
-        message.setFromUserName("yang");
-        message.setCreateTime(21312312312L);
+        message.setToUserName(requestMessage.getFromUserName());
+        message.setFromUserName(requestMessage.getToUserName());
+        message.setCreateTime(System.currentTimeMillis());
         message.setContent("我是圣贤！");
         message.setMsgType(MsgTypes.TEXT.getType());
         this.responseMessage = message;
@@ -40,9 +39,9 @@ public class DefaultMessageProcessingHandler implements MessageProcessingHandler
     public void onImageMessageReceived(ImageRequestMessage requestMessage) {
 
         ImageResponseMessage message = new ImageResponseMessage();
-        message.setToUserName("dean");
-        message.setFromUserName("yang");
-        message.setCreateTime(21312312312L);
+        message.setToUserName(requestMessage.getFromUserName());
+        message.setFromUserName(requestMessage.getToUserName());
+        message.setCreateTime(System.currentTimeMillis());
         message.setMsgType(MsgTypes.IMAGE.getType());
         Image image = new Image();
         image.setMediaId(23123123L);
@@ -53,9 +52,9 @@ public class DefaultMessageProcessingHandler implements MessageProcessingHandler
     @Override
     public void onVoiceMessageReceived(VoiceRequestMessage requestMessage) {
         NewsResponseMessage message = new NewsResponseMessage();
-        message.setToUserName("dean");
-        message.setFromUserName("yang");
-        message.setCreateTime(21312312312L);
+        message.setToUserName(requestMessage.getFromUserName());
+        message.setFromUserName(requestMessage.getToUserName());
+        message.setCreateTime(System.currentTimeMillis());
         message.setMsgType(MsgTypes.NEWS.getType());
         message.setArticleCount(2);
         List<Articles> articles = new ArrayList<Articles>(2);

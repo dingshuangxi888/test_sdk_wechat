@@ -1,11 +1,12 @@
 package net.locplus.sdk.wechat.servlet;
 
+import net.locplus.sdk.wechat.config.WeChatConfiguration;
 import net.locplus.sdk.wechat.handler.DefaultMessageProcessingHandler;
 import net.locplus.sdk.wechat.handler.MessageProcessingHandler;
 import net.locplus.sdk.wechat.model.req.AllRequestMessage;
+import net.locplus.sdk.wechat.model.req.SignatureMessage;
 import net.locplus.sdk.wechat.model.resp.BaseResponseMessage;
 import net.locplus.sdk.wechat.service.WeChatService;
-import net.locplus.sdk.wechat.model.req.SignatureMessage;
 import net.locplus.sdk.wechat.util.WeChatUtil;
 import net.sf.cglib.beans.BeanCopier;
 
@@ -15,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Objects;
 
 /**
  * Created by Administrator on 2014/4/22.
@@ -59,10 +59,10 @@ public class WeChatExecutor {
         return result;
     }
 
-    public static String doPost(String message) {
+    public static String doPost(String xmlMessage) {
         String result = null;
 
-        AllRequestMessage requestMessage = WeChatUtil.parseRequestMessage(message);
+        AllRequestMessage requestMessage = WeChatUtil.parseRequestMessage(xmlMessage);
 
         StringBuilder messageObject = new StringBuilder("net.locplus.sdk.wechat.model.req.");
         StringBuilder handlerMethod = new StringBuilder("on");
@@ -86,7 +86,9 @@ public class WeChatExecutor {
             Object targetObject = targetClazz.newInstance();
             copier.copy(requestMessage, targetObject, null);
 
-            MessageProcessingHandler messageProcessingHandler = new DefaultMessageProcessingHandler();
+            Class<MessageProcessingHandler> handlerClazz = (Class<MessageProcessingHandler>) Class.forName(WeChatConfiguration.MESSAGE_PROCESSING_HANDLER);
+            MessageProcessingHandler messageProcessingHandler = handlerClazz.newInstance();
+
             Method handleMethod = messageProcessingHandler.getClass().getMethod(handlerMethod.toString(), targetClazz);
             if (handleMethod != null) {
                 handleMethod.invoke(messageProcessingHandler, targetObject);

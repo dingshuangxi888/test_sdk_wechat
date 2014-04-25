@@ -13,6 +13,7 @@ public interface MessageProcessingHandler {
 
     /**
      * 获取回复消息的内容
+     *
      * @return
      */
     public BaseResponseMessage getResponseMessage();
@@ -40,6 +41,7 @@ public interface MessageProcessingHandler {
 
     /**
      * 处理语音识别消息
+     *
      * @param requestMessage
      */
     public void onVoiceRecognitionMessageReceived(VoiceRecognitionRequestMessage requestMessage);
@@ -68,6 +70,7 @@ public interface MessageProcessingHandler {
     /**
      * 处理自定义菜单事件
      * 点击菜单拉取消息时的事件推送
+     *
      * @param requestMessage
      */
     public void onClickEventMessageReceived(ClickEventRequestMessage requestMessage);
@@ -75,6 +78,7 @@ public interface MessageProcessingHandler {
     /**
      * 处理自定义菜单事件
      * 点击菜单跳转链接时的事件推送
+     *
      * @param requestMessage
      */
     public void onViewEventMessageReceived(ViewEventRequestMessage requestMessage);
@@ -89,6 +93,7 @@ public interface MessageProcessingHandler {
     /**
      * 扫描带参数二维码事件/关注事件
      * 用户未关注时，进行关注后的事件推送
+     *
      * @param requestMessage
      */
     public void onSubscribeEventMessageReceived(SubscribeEventRequestMessage requestMessage);
@@ -103,6 +108,7 @@ public interface MessageProcessingHandler {
 
     /**
      * 取消关注事件
+     *
      * @param requestMessage
      */
     public void onUnsubscribeEventMessageReceived(UnsubscribeEventRequestMessage requestMessage);

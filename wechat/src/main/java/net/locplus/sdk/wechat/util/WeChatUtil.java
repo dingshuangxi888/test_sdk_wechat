@@ -1,17 +1,16 @@
 package net.locplus.sdk.wechat.util;
 
 import com.thoughtworks.xstream.XStream;
-import javafx.beans.binding.StringBinding;
 import net.locplus.sdk.wechat.model.Articles;
 import net.locplus.sdk.wechat.model.req.AllRequestMessage;
-import net.locplus.sdk.wechat.model.req.SignatureMessage;
 import org.apache.commons.codec.digest.DigestUtils;
-import sun.security.krb5.internal.PAData;
 
-import javax.servlet.ServletInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by Administrator on 2014/4/22.
@@ -52,7 +51,7 @@ public class WeChatUtil {
 
     public static String upperFirst(String str) {
         byte[] items = str.toLowerCase().getBytes();
-        items[0] = (byte)((char)items[0]-'a'+'A');
+        items[0] = (byte) ((char) items[0] - 'a' + 'A');
         return new String(items);
     }
 
@@ -62,7 +61,7 @@ public class WeChatUtil {
         }
         StringBuilder sb = new StringBuilder();
         byte[] b = new byte[4096];
-        for (int i; (i = in.read(b)) != -1;) {
+        for (int i; (i = in.read(b)) != -1; ) {
             sb.append(new String(b, 0, i, "UTF-8"));
         }
         return sb.toString();
