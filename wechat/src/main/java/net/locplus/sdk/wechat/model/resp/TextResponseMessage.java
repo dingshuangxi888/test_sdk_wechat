@@ -1,5 +1,7 @@
 package net.locplus.sdk.wechat.model.resp;
 
+import net.locplus.sdk.wechat.handler.MsgTypes;
+
 /**
  * 回复文本消息
  * Created by Administrator on 2014/4/18.

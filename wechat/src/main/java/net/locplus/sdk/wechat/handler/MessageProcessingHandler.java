@@ -10,12 +10,12 @@ import net.locplus.sdk.wechat.model.resp.BaseResponseMessage;
  */
 public interface MessageProcessingHandler {
 
+
     /**
-     * 设置回复消息的内容
-     *
-     * @param responseMessage
+     * 获取回复消息的内容
+     * @return
      */
-    public void setResponseMessage(BaseResponseMessage responseMessage);
+    public BaseResponseMessage getResponseMessage();
 
     /**
      * 处理文本消息

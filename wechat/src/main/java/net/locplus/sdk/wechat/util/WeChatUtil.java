@@ -1,11 +1,16 @@
 package net.locplus.sdk.wechat.util;
 
 import com.thoughtworks.xstream.XStream;
+import javafx.beans.binding.StringBinding;
+import net.locplus.sdk.wechat.model.Articles;
 import net.locplus.sdk.wechat.model.req.AllRequestMessage;
 import net.locplus.sdk.wechat.model.req.SignatureMessage;
 import org.apache.commons.codec.digest.DigestUtils;
 import sun.security.krb5.internal.PAData;
 
+import javax.servlet.ServletInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -18,7 +23,6 @@ public class WeChatUtil {
         List<String> params = new ArrayList<String>();
         params.add(token);
         params.add(timestamp);
-        ;
         params.add(nonce);
 
         Collections.sort(params, new Comparator<String>() {
@@ -34,10 +38,16 @@ public class WeChatUtil {
     public static AllRequestMessage parseRequestMessage(String xmlString) {
         XStream xs = XStreamFactory.init(false);
         xs.ignoreUnknownElements();
-        ;
         xs.alias("xml", AllRequestMessage.class);
         AllRequestMessage msg = (AllRequestMessage) xs.fromXML(xmlString);
         return msg;
+    }
+
+    public static String parseResponseMessage(Object obj) {
+        XStream xs = XStreamFactory.init(true);
+        xs.alias("xml", obj.getClass());
+        xs.alias("item", Articles.class);
+        return xs.toXML(obj);
     }
 
     public static String upperFirst(String str) {
@@ -46,15 +56,15 @@ public class WeChatUtil {
         return new String(items);
     }
 
-    public static void main(String[] args) {
-        String xmlString = "<xml>\n" +
-                "<ToUserName><![CDATA[toUser]]></ToUserName>\n" +
-                "<FromUserName><![CDATA[FromUser]]></FromUserName>\n" +
-                "<CreateTime>123456789</CreateTime>\n" +
-                "<MsgType><![CDATA[event]]></MsgType>\n" +
-                "<Event><![CDATA[CLICK]]></Event>\n" +
-                "<EventKey><![CDATA[EVENTKEY]]></EventKey>\n" +
-                "</xml>";
-        parseRequestMessage(xmlString);
+    public static String inputStream2String(InputStream in) throws IOException {
+        if (in == null) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        byte[] b = new byte[4096];
+        for (int i; (i = in.read(b)) != -1;) {
+            sb.append(new String(b, 0, i, "UTF-8"));
+        }
+        return sb.toString();
     }
 }

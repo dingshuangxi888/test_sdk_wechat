@@ -4,16 +4,17 @@ package net.locplus.sdk.wechat.handler;
  * Created by Administrator on 2014/4/22.
  */
 public enum MsgTypes {
-    TEXT("Text"),
-    IMAGE("Image"),
-    VOICE("Voice"),
-    VIDEO("Video"),
-    LOCATION("Location"),
-    LINK("Link"),
+    TEXT("text"),
+    IMAGE("image"),
+    NEWS("news"),
+    VOICE("voice"),
+    VIDEO("video"),
+    LOCATION("location"),
+    LINK("link"),
 
-    LOCATION_EVENT("LocationEvent"),
-    MENU_EVENT("MenuEvent"),
-    SCAN_EVENT("ScanEvent");
+    LOCATION_EVENT("locationEvent"),
+    MENU_EVENT("menuEvent"),
+    SCAN_EVENT("scanEvent");
 
     private String type;
 

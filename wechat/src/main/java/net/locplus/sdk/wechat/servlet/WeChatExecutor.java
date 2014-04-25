@@ -3,11 +3,13 @@ package net.locplus.sdk.wechat.servlet;
 import net.locplus.sdk.wechat.handler.DefaultMessageProcessingHandler;
 import net.locplus.sdk.wechat.handler.MessageProcessingHandler;
 import net.locplus.sdk.wechat.model.req.AllRequestMessage;
+import net.locplus.sdk.wechat.model.resp.BaseResponseMessage;
 import net.locplus.sdk.wechat.service.WeChatService;
 import net.locplus.sdk.wechat.model.req.SignatureMessage;
 import net.locplus.sdk.wechat.util.WeChatUtil;
 import net.sf.cglib.beans.BeanCopier;
 
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -39,8 +41,13 @@ public class WeChatExecutor {
         response.getWriter().write(result);
     }
 
-    public static void doPost(HttpServletRequest request, HttpServletResponse response) {
-
+    public static void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/xml");
+        ServletInputStream in = request.getInputStream();
+        String xmlMsg = WeChatUtil.inputStream2String(in);
+        String result = doPost(xmlMsg);
+        response.getWriter().write(result);
     }
 
 
@@ -53,9 +60,11 @@ public class WeChatExecutor {
     }
 
     public static String doPost(String message) {
+        String result = null;
+
         AllRequestMessage requestMessage = WeChatUtil.parseRequestMessage(message);
 
-        StringBuilder messageObject = new StringBuilder("net.locplus.sdk.wechat.model.req");
+        StringBuilder messageObject = new StringBuilder("net.locplus.sdk.wechat.model.req.");
         StringBuilder handlerMethod = new StringBuilder("on");
 
         String msgType = requestMessage.getMsgType();
@@ -65,6 +74,8 @@ public class WeChatExecutor {
             String upperEvent = WeChatUtil.upperFirst(event);
             messageObject.append(upperEvent);
             handlerMethod.append(upperEvent);
+        } else {
+            messageObject.append("normal.");
         }
         messageObject.append(upperMsgType).append("RequestMessage");
         handlerMethod.append(upperMsgType).append("MessageReceived");
@@ -81,7 +92,8 @@ public class WeChatExecutor {
                 handleMethod.invoke(messageProcessingHandler, targetObject);
             }
 
-            //TODO: handle OutMessage
+            BaseResponseMessage responseMessage = messageProcessingHandler.getResponseMessage();
+            result = WeChatUtil.parseResponseMessage(responseMessage);
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -95,6 +107,6 @@ public class WeChatExecutor {
             e.printStackTrace();
         }
 
-        return null;
+        return result;
     }
 }

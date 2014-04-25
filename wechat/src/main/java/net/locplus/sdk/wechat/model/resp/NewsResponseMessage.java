@@ -2,6 +2,8 @@ package net.locplus.sdk.wechat.model.resp;
 
 import net.locplus.sdk.wechat.model.Articles;
 
+import java.util.List;
+
 /**
  * 回复图文消息
  * Created by Administrator on 2014/4/18.
@@ -12,10 +14,8 @@ public class NewsResponseMessage extends BaseResponseMessage {
      * 图文消息个数，限制为10条以内
      */
     private int ArticleCount;
-    /**
-     * 多条图文消息信息，默认第一个item为大图,注意，如果图文数超过10，则将会无响应
-     */
-    private Articles Articles;
+
+    private List<Articles> Articles;
 
     public int getArticleCount() {
         return ArticleCount;
@@ -25,11 +25,11 @@ public class NewsResponseMessage extends BaseResponseMessage {
         ArticleCount = articleCount;
     }
 
-    public Articles getArticles() {
+    public List<Articles> getArticles() {
         return Articles;
     }
 
-    public void setArticles(Articles articles) {
+    public void setArticles(List<Articles> articles) {
         Articles = articles;
     }
 }
