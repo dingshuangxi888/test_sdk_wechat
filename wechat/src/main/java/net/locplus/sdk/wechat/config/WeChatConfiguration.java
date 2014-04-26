@@ -1,7 +1,5 @@
 package net.locplus.sdk.wechat.config;
 
-import net.locplus.sdk.wechat.handler.MessageProcessingHandler;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -13,6 +11,12 @@ public class WeChatConfiguration {
 
     public static String MESSAGE_PROCESSING_HANDLER;
 
+    public static String TOKEN;
+
+    public static String APPID;
+
+    public static String SECRET;
+
     static {
         InputStream in = null;
         Properties properties = new Properties();
@@ -20,6 +24,9 @@ public class WeChatConfiguration {
             in = WeChatConfiguration.class.getClassLoader().getResourceAsStream("wechat.properties");
             properties.load(in);
             MESSAGE_PROCESSING_HANDLER = properties.getProperty("MESSAGE_PROCESSING_HANDLER");
+            TOKEN = properties.getProperty("TOKEN");
+            APPID = properties.getProperty("APPID");
+            SECRET = properties.getProperty("SECRET");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

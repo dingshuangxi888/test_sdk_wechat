@@ -1,7 +1,6 @@
 package net.locplus.sdk.wechat.servlet;
 
 import net.locplus.sdk.wechat.config.WeChatConfiguration;
-import net.locplus.sdk.wechat.handler.DefaultMessageProcessingHandler;
 import net.locplus.sdk.wechat.handler.MessageProcessingHandler;
 import net.locplus.sdk.wechat.model.req.AllRequestMessage;
 import net.locplus.sdk.wechat.model.req.SignatureMessage;
@@ -9,6 +8,8 @@ import net.locplus.sdk.wechat.model.resp.BaseResponseMessage;
 import net.locplus.sdk.wechat.service.WeChatService;
 import net.locplus.sdk.wechat.util.WeChatUtil;
 import net.sf.cglib.beans.BeanCopier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -22,22 +23,26 @@ import java.lang.reflect.Method;
  */
 public class WeChatExecutor {
 
+    private final static Logger logger = LoggerFactory.getLogger(WeChatExecutor.class);
+
     public static void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String result = null;
+
+        logger.info(request.getQueryString());
 
         String signature = request.getParameter("signature");
         String timestamp = request.getParameter("timestamp");
         String nonce = request.getParameter("nonce");
         String echostr = request.getParameter("echostr");
+
+        logger.info("Message from wechat to verify the authenticity [signature={}, timestamp={}, nonce={}, echostr={}]", signature, timestamp, nonce, echostr);
+
         SignatureMessage signatureMessage = new SignatureMessage(signature, timestamp, nonce, echostr);
 
         String path = request.getServletPath();
         String pathInfo = path.substring(path.lastIndexOf("/"));
-        String _token;
-        if (pathInfo != null && !pathInfo.isEmpty()) {
-            _token = pathInfo.substring(1);
-            result = doGet(signatureMessage, _token);
-        }
+        String _token = WeChatConfiguration.TOKEN;
+        result = doGet(signatureMessage, _token);
         response.getWriter().write(result);
     }
 
@@ -60,6 +65,7 @@ public class WeChatExecutor {
     }
 
     public static String doPost(String xmlMessage) {
+        logger.info("Message from wechat user {}", xmlMessage);
         String result = null;
 
         AllRequestMessage requestMessage = WeChatUtil.parseRequestMessage(xmlMessage);
@@ -109,6 +115,7 @@ public class WeChatExecutor {
             e.printStackTrace();
         }
 
+        logger.info("Message response to wechat user {}", result);
         return result;
     }
 }
