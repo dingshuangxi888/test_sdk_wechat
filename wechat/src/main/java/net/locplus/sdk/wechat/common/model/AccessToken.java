@@ -20,6 +20,6 @@ public class AccessToken {
     }
 
     public boolean isExpires() {
-        return System.currentTimeMillis() - startTime > expiresIn * 1000;
+        return System.currentTimeMillis() - startTime > 10 * 1000;
     }
 }

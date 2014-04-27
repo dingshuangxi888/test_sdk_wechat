@@ -7,6 +7,7 @@ import net.locplus.sdk.wechat.config.WeChatConfiguration;
 import net.locplus.sdk.wechat.util.HttpUtil;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
 /**
@@ -19,8 +20,6 @@ public class AccessTokenService {
     private volatile FutureTask<AccessToken> accessTask;
 
     private AccessTokenService() {
-        accessTask = new FutureTask<AccessToken>(new AccessTokenCall<AccessToken>());
-        accessTask.run();
     }
 
     public static AccessTokenService getInstance() {
@@ -28,12 +27,19 @@ public class AccessTokenService {
         return AccessTokenServiceSingletonHolder.instance;
     }
 
-    public String getAccessToken() throws Exception {
-        AccessToken accessToken = accessTask.get();
-        if (accessToken == null || accessToken.isExpires()) {
-            accessTask = new FutureTask<AccessToken>(new AccessTokenCall<AccessToken>());
-            accessTask.run();
+    public String getAccessToken() {
+
+        AccessToken accessToken = null;
+        try {
+            if (accessTask == null || accessTask.get() == null || accessTask.get().isExpires()) {
+                accessTask = new FutureTask<AccessToken>(new AccessTokenCall<AccessToken>());
+                accessTask.run();
+            }
             accessToken = accessTask.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
         return accessToken.getAccessToken();
     }
@@ -49,7 +55,6 @@ public class AccessTokenService {
 
             String url = String.format(ACCESS_TOKEN_UEL, WeChatConfiguration.APPID, WeChatConfiguration.SECRET);
             String str = HttpUtil.getHttpsInstance().get(url);
-            System.out.println(str);
             JSONObject jsonObject = JSON.parseObject(str);
             if (!jsonObject.containsKey("errcode")) {
                 String access_token = jsonObject.getString("access_token");
