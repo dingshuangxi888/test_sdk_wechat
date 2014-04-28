@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+        html, body, #map-canvas {
+            height: 100%;
+            margin: 0px;
+            padding: 0px
+        }
+    </style>
+
+</head>
+<body>
+<div id="map-canvas"></div>
+
+<script src="js/jquery-1.11.0.js"></script>
+<script src="http://maps.googleapis.com/maps/api/js?v=3.13?key=AIzaSyBZDh63rJym1VeIn2wSbdFO_xCjlcnNq9M&sensor=false"></script>
+<script>
+
+    $(function () {
+        var map;
+        initialize();
+//        alert(getUrlParam("deviceid"));
+    });
+    function initialize() {
+        var mapOptions = {
+            zoom: 8,
+            center: new google.maps.LatLng(-34.397, 150.644)
+        };
+        map = new google.maps.Map(document.getElementById('map-canvas'),
+                mapOptions);
+    }
+    var getUrlParam = function (name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+</script>
+</body>
+</html>

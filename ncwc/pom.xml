@@ -11,17 +11,41 @@
     <packaging>war</packaging>
     <name>ncwc Maven Webapp</name>
     <url>http://maven.apache.org</url>
+    <properties>
+        <spring.version>4.0.3.RELEASE</spring.version>
+        <wechat.version>1.0-SNAPSHOT</wechat.version>
+        <jackson.version>1.9.12</jackson.version>
+        <junit.version>4.11</junit.version>
+    </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>net.locplus.sdk</groupId>
             <artifactId>wechat</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${wechat.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
+            <version>4.11</version>
+            <scope>${junit.version}</scope>
         </dependency>
     </dependencies>
     <build>

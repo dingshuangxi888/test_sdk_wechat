@@ -2,9 +2,7 @@ package net.locplus.sdk.wechat.common.service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import net.locplus.sdk.wechat.common.model.AccessToken;
 import net.locplus.sdk.wechat.common.model.Menu;
-import net.locplus.sdk.wechat.config.WeChatConfiguration;
 import net.locplus.sdk.wechat.util.HttpUtil;
 
 /**
@@ -16,7 +14,8 @@ public class MenuService {
     private String URL_MENU_GET = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=%s";
     private String URL_MENU_DELETE = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=%s";
 
-    private MenuService() {}
+    private MenuService() {
+    }
 
     public static MenuService getInstance() {
         return MenuServiceSingletonHolder.instance;

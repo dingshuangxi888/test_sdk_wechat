@@ -1,5 +1,6 @@
-package biz.bbtec.ncwc.wechat.handler;
+package biz.bbtec.ncwc.handler;
 
+import biz.bbtec.ncwc.handler.event.click.*;
 import net.locplus.sdk.wechat.handler.MessageProcessingHandler;
 import net.locplus.sdk.wechat.model.req.event.*;
 import net.locplus.sdk.wechat.model.req.normal.*;
@@ -54,7 +55,19 @@ public class NcwcMessageProcessingHandler implements MessageProcessingHandler {
 
     @Override
     public void onClickEventMessageReceived(ClickEventRequestMessage requestMessage) {
-
+        String event = requestMessage.getEventKey();
+        ClickEventState state = null;
+        if ("DEVICE_LIST".equals(event)) {
+            state = new DeviceListClickEventState();
+        }
+        if ("UNBIND_USER".equals(event)) {
+            state = new UnbindUserClickEventState();
+        }
+        if ("GET_HELP".equals(event)) {
+            state = new GetHelpClickEventState();
+        }
+        ClickEventContext context = new ClickEventContext(state);
+        this.responseMessage = context.request(requestMessage);
     }
 
     @Override

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户绑定</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container div-center">
+    <div class="page-header">
+        <h1>NC用户绑定</h1>
+    </div>
+    <div id="user-bind-alert" class="alert hidden">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <span></span>
+    </div>
+    <form role="form" onsubmit="return userBind();">
+        <div class="form-group">
+            <label form="UserName">UserName</label>
+            <input type="text" id="UserName" class="form-control input-lg" placeholder="Enter UserName">
+        </div>
+        <div class="form-group">
+            <label form="Password">Password</label>
+            <input type="password" id="Password" class="form-control input-lg" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+    </form>
+</div>
+
+<script src="js/jquery-1.11.0.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

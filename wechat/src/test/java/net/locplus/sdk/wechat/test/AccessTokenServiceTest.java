@@ -1,10 +1,8 @@
 package net.locplus.sdk.wechat.test;
 
 import net.locplus.sdk.wechat.common.service.AccessTokenService;
-import net.locplus.sdk.wechat.config.WeChatConfiguration;
 import org.junit.Test;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

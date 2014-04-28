@@ -76,6 +76,7 @@ public class WeChatExecutor {
         String msgType = requestMessage.getMsgType();
         String upperMsgType = WeChatUtil.upperFirst(msgType);
         if ("event".equalsIgnoreCase(msgType)) {
+            messageObject.append("event.");
             String event = requestMessage.getEvent();
             String upperEvent = WeChatUtil.upperFirst(event);
             messageObject.append(upperEvent);

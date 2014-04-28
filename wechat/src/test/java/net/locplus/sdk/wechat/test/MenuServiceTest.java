@@ -14,10 +14,10 @@ public class MenuServiceTest {
 
     @Test
     public void testCreateMenu() {
-        ClickMenuButton menuButton1 = new ClickMenuButton("设备列表", "DEVICE_LIST" );
+        ClickMenuButton menuButton1 = new ClickMenuButton("设备列表", "DEVICE_LIST");
         ViewMenuButton menuButton2 = new ViewMenuButton("访问网页", "http://ncui.bblbs.net");
 
-        ViewMenuButton subMenuButton1 = new ViewMenuButton("绑定账户", "http://ncui.bblbs.net");
+        ViewMenuButton subMenuButton1 = new ViewMenuButton("绑定账户", "http://wx.bbtec.biz/resources/index.html");
         ClickMenuButton subMenuButton2 = new ClickMenuButton("解除绑定", "UNBIND_USER");
         ClickMenuButton subMenuButton3 = new ClickMenuButton("获取帮助", "GET_HELP");
         List<MenuButton> subMenuButtons = Arrays.asList(subMenuButton1, subMenuButton2, subMenuButton3);

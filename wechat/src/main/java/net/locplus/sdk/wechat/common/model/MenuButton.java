@@ -1,7 +1,5 @@
 package net.locplus.sdk.wechat.common.model;
 
-import java.util.List;
-
 /**
  * Created by dings_000 on 2014/4/27.
  */
