@@ -1,19 +1,19 @@
-package biz.bbtec.ncwc.handler.event.click;
+package biz.bbtec.ncwc.handler.common;
 
 import net.locplus.sdk.wechat.handler.MsgTypes;
-import net.locplus.sdk.wechat.model.req.event.ClickEventRequestMessage;
+import net.locplus.sdk.wechat.model.req.BaseRequestMessage;
 import net.locplus.sdk.wechat.model.resp.BaseResponseMessage;
 import net.locplus.sdk.wechat.model.resp.TextResponseMessage;
 
 /**
- * Created by Administrator on 2014/4/28.
+ * Created by Dean on 2014/4/29.
  */
-public class GetHelpClickEventState implements ClickEventState {
-    @Override
-    public BaseResponseMessage handle(ClickEventRequestMessage reqeustMessage) {
+public class HelpHandler {
+
+    public static BaseResponseMessage helpMessage(BaseRequestMessage requestMessage) {
         TextResponseMessage responseMessage = new TextResponseMessage();
-        responseMessage.setToUserName(reqeustMessage.getFromUserName());
-        responseMessage.setFromUserName(reqeustMessage.getToUserName());
+        responseMessage.setToUserName(requestMessage.getFromUserName());
+        responseMessage.setFromUserName(requestMessage.getToUserName());
         responseMessage.setCreateTime(System.currentTimeMillis());
         StringBuilder sb = new StringBuilder();
         sb.append("您好，请按照以下回复选择服务：").append("\n\n");

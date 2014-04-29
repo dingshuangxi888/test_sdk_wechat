@@ -18,27 +18,53 @@
 
 <script src="js/jquery-1.11.0.js"></script>
 <script src="http://maps.googleapis.com/maps/api/js?v=3.13?key=AIzaSyBZDh63rJym1VeIn2wSbdFO_xCjlcnNq9M&sensor=false"></script>
+<script src="js/main.js"></script>
 <script>
-
+    google.maps.visualRefresh = true;
+    var map;
     $(function () {
-        var map;
+
         initialize();
-//        alert(getUrlParam("deviceid"));
+        var deviceid = getUrlParam("deviceid");
+        var openid = getUrlParam("openid");
+        showDeviceLastLocation(deviceid, openid);
     });
     function initialize() {
         var mapOptions = {
             zoom: 8,
-            center: new google.maps.LatLng(-34.397, 150.644)
+            center: new google.maps.LatLng(0, 0)
         };
         map = new google.maps.Map(document.getElementById('map-canvas'),
                 mapOptions);
     }
-    var getUrlParam = function (name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-        var r = window.location.search.substr(1).match(reg);
-        if (r != null) return unescape(r[2]);
-        return null;
+
+    var showDeviceLastLocation = function(deviceid, openid) {
+        $.post("../loc/last", {'deviceid': deviceid, 'openid':openid}, function(data) {
+            var latLng = new google.maps.LatLng(data.offsetResult.latitudeOffset + data.lastUpdate.latitude, data.offsetResult.longitudeOffset + data.lastUpdate.longitude);
+            var marker = placeMarker(latLng);
+            var infowindow = placeInfoWindow(data);
+            infowindow.open(map, marker);
+            map.setCenter(latLng);
+        });
     }
+
+    var placeMarker = function(latLng) {
+        var marker = new google.maps.Marker({
+            position: latLng,
+            map: map
+        });
+        return marker;
+    }
+
+    var placeInfoWindow = function(data) {
+        var content = "<div>设备编号:" + data.lastUpdate.deviceId + "<br>设备名称:" + data.lastUpdate.name + "<br>纬度:" + data.lastUpdate.latitude + "  经度:" + data.lastUpdate.longitude + "  高度:" + data.lastUpdate.altitude + "<br>更新时间:" + data.lastUpdate.time + "<br>精度:" + data.lastUpdate.accuracy + "m<br>地址:" + data.address + "<br>定位类型:" + data.lastUpdate.type + "</div>";
+        var infowindow = new google.maps.InfoWindow({
+            content: content,
+            maxWidth: 300
+        });
+        return infowindow;
+    }
+
 </script>
 </body>
 </html>

@@ -6,15 +6,15 @@ import net.locplus.sdk.wechat.model.resp.BaseResponseMessage;
 /**
  * Created by Dean on 2014/4/28.
  */
-public class ClickEventContext {
+public class ClickEventHandlerContext {
 
-    private ClickEventState state;
+    private ClickEventHandlerState state;
 
-    public ClickEventContext(ClickEventState state) {
+    public ClickEventHandlerContext(ClickEventHandlerState state) {
         this.state = state;
     }
 
-    public void setState(ClickEventState state) {
+    public void setState(ClickEventHandlerState state) {
         this.state = state;
     }
 

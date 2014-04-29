@@ -6,7 +6,7 @@ import net.locplus.sdk.wechat.model.resp.BaseResponseMessage;
 /**
  * Created by Dean on 2014/4/28.
  */
-public interface ClickEventState {
+public interface ClickEventHandlerState {
 
     public BaseResponseMessage handle(ClickEventRequestMessage reqeustMessage);
 }
