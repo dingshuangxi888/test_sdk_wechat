@@ -1,6 +1,7 @@
 package biz.bbtec.ncwc.handler.event.click;
 
 import biz.bbtec.ncwc.service.ncws.WechatUserService;
+import biz.bbtec.ncwc.service.ncws.impl.WechatUserServiceImpl;
 import net.locplus.sdk.wechat.handler.MsgTypes;
 import net.locplus.sdk.wechat.model.req.event.ClickEventRequestMessage;
 import net.locplus.sdk.wechat.model.resp.BaseResponseMessage;
@@ -12,8 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class UnbindUserClickEventHandlerState implements ClickEventHandlerState {
 
-    @Autowired
-    private WechatUserService wechatUserService;
+    private WechatUserService wechatUserService = new WechatUserServiceImpl();
 
     @Override
     public BaseResponseMessage handle(ClickEventRequestMessage reqeustMessage) {

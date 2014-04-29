@@ -10,6 +10,7 @@ import java.util.Properties;
 public class Configuration {
 
     public static String URL_NCWS;
+    public static String MEMCACHED_SERVERS;
 
     static {
         InputStream in = null;
@@ -18,6 +19,7 @@ public class Configuration {
             in = Configuration.class.getClassLoader().getResourceAsStream("config.properties");
             properties.load(in);
             URL_NCWS = properties.getProperty("URL_NCWS");
+            MEMCACHED_SERVERS = properties.getProperty("MEMCACHED_SERVERS");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

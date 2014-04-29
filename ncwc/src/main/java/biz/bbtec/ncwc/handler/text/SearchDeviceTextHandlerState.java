@@ -38,7 +38,8 @@ public class SearchDeviceTextHandlerState implements TextHandlerState {
         for (SearchResult searchResult : searchResults) {
             sb.append("<a href=\"http://wx.bbtec.biz/resources/map.html?deviceid=")
                     .append(searchResult.getDeviceId()).append("&").append("openid=").append(requestMessage.getFromUserName()).append("\">")
-                    .append(searchResult.getDeviceId()).append(":").append(searchResult.getName()).append("</a>").append("\n\n");
+                    .append(searchResult.getDeviceId()).append(":").append(searchResult.getName()).append("</a>").append("\n");
+            sb.append("--------------------------\n");
         }
         responseMessage.setContent(sb.toString());
         responseMessage.setMsgType(MsgTypes.TEXT.getType());

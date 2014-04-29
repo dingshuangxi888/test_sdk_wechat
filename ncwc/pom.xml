@@ -16,14 +16,23 @@
         <wechat.version>1.0-SNAPSHOT</wechat.version>
         <jackson.version>1.9.12</jackson.version>
         <junit.version>4.11</junit.version>
+        <ncws.version>1.1</ncws.version>
+        <ncws.classifier>bbtec</ncws.classifier>
+        <spymemcached.version>2.11.1</spymemcached.version>
     </properties>
     <dependencies>
 
         <dependency>
             <groupId>biz.bbtec.ncws</groupId>
             <artifactId>ncws</artifactId>
-            <version>1.1</version>
+            <version>${ncws.version}</version>
             <classifier>bbtec</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>net.spy</groupId>
+            <artifactId>spymemcached</artifactId>
+            <version>${spymemcached.version}</version>
         </dependency>
 
         <dependency>

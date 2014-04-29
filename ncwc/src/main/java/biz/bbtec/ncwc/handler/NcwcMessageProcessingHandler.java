@@ -73,8 +73,11 @@ public class NcwcMessageProcessingHandler implements MessageProcessingHandler {
     public void onClickEventMessageReceived(ClickEventRequestMessage requestMessage) {
         String event = requestMessage.getEventKey();
         ClickEventHandlerState state = null;
-        if ("DEVICE_LIST".equals(event)) {
-            state = new DeviceListClickEventHandlerState();
+        if ("GET_LIST".equals(event)) {
+            state = new GetDeviceListClickEventHandlerState();
+        }
+        if ("MORE_LIST".equals(event)) {
+            state = new MoreDeviceListClickEventHandlerState();
         }
         if ("BIND_USER".equals(event)) {
             state = new BindUserClickEventHandlerState();
@@ -82,9 +85,6 @@ public class NcwcMessageProcessingHandler implements MessageProcessingHandler {
         if ("UNBIND_USER".equals(event)) {
             state = new UnbindUserClickEventHandlerState();
         }
-//        if ("GET_HELP".equals(event)) {
-//            state = new GetHelpClickEventHandlerState();
-//        }
         if (state == null) {
             state = new GetHelpClickEventHandlerState();
         }
