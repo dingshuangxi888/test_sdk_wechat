@@ -68,6 +68,7 @@ public class MoreDeviceListClickEventHandlerState implements ClickEventHandlerSt
                 deviceListVO = list.get(i);
                 sb.append(deviceListVO.getDeviceId()).append("\n");
                 sb.append(deviceListVO.getName()).append("\n");
+                sb.append(deviceListVO.getTime()).append("\n");
                 sb.append("<a href=\"http://wx.bbtec.biz/resources/map.html?deviceid=")
                         .append(deviceListVO.getDeviceId()).append("&").append("openid=").append(requestMessage.getFromUserName()).append("\">")
                         .append(addressResults.get(i).getAddress()).append("</a>").append("\n");

@@ -48,8 +48,10 @@ public class SearchDeviceTextHandlerState implements TextHandlerState {
         List<SearchResult> searchResults = searchDeviceService.search(session, strs[1]);
 
         List<LatLon> latLons = new ArrayList<>();
+        List<LastUpdate2> lastUpdates = new ArrayList<>();
         for (SearchResult searchResult : searchResults) {
             LastUpdate2 lastUpdate2 = locationService.getLastUpdate(searchResult.getDeviceId(), session);
+            lastUpdates.add(lastUpdate2);
             LatLon latLon = new LatLon(lastUpdate2.getLatitude(), lastUpdate2.getLongitude());
             latLons.add(latLon);
         }
@@ -64,7 +66,9 @@ public class SearchDeviceTextHandlerState implements TextHandlerState {
         sb.append("搜索结果：\n\n");
         for (int i = 0; i < searchResults.size(); i++) {
             SearchResult searchResult = searchResults.get(i);
-            sb.append(searchResult.getDeviceId()).append("\n").append(searchResult.getName()).append("\n");
+            sb.append(searchResult.getDeviceId()).append("\n")
+                    .append(searchResult.getName()).append("\n")
+                    .append(lastUpdates.get(i).getTime()).append("\n");
             sb.append("<a href=\"http://wx.bbtec.biz/resources/map.html?deviceid=")
                     .append(searchResult.getDeviceId()).append("&").append("openid=").append(requestMessage.getFromUserName()).append("\">")
                     .append(addressResults.get(i).getAddress()).append("</a>").append("\n");
