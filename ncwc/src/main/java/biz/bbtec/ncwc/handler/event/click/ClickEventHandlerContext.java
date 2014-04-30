@@ -18,7 +18,7 @@ public class ClickEventHandlerContext {
         this.state = state;
     }
 
-    public BaseResponseMessage request(ClickEventRequestMessage reqeustMessage) {
-        return state.handle(reqeustMessage);
+    public BaseResponseMessage request(ClickEventRequestMessage requestMessage) {
+        return state.handle(requestMessage);
     }
 }

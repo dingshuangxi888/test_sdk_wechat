@@ -1,5 +1,6 @@
 package biz.bbtec.ncwc.handler.text;
 
+import biz.bbtec.ncwc.handler.common.NoBindHelper;
 import biz.bbtec.ncwc.service.ncws.GeoService;
 import biz.bbtec.ncwc.service.ncws.LocationService;
 import biz.bbtec.ncwc.service.ncws.SearchDeviceService;
@@ -37,6 +38,11 @@ public class SearchDeviceTextHandlerState implements TextHandlerState {
     @Override
     public BaseResponseMessage handle(TextRequestMessage requestMessage) {
         String session = wechatUserService.getSession(requestMessage.getFromUserName());
+
+        if (session == null || session.isEmpty()) {
+            return NoBindHelper.remember(requestMessage);
+        }
+
         String content = requestMessage.getContent();
         String[] strs = content.split("\\s+");
         List<SearchResult> searchResults = searchDeviceService.search(session, strs[1]);

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Simple Map</title>
+    <title>Location on Map</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <style>
@@ -31,7 +31,7 @@
     });
     function initialize() {
         var mapOptions = {
-            zoom: 8,
+            zoom: 3,
             center: new google.maps.LatLng(0, 0)
         };
         map = new google.maps.Map(document.getElementById('map-canvas'),
@@ -45,6 +45,7 @@
             var infowindow = placeInfoWindow(data);
             infowindow.open(map, marker);
             map.setCenter(latLng);
+            map.setZoom(14);
         });
     }
 
