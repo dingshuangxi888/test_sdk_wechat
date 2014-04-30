@@ -20,14 +20,16 @@ public class MemcachedUtil {
         }
     }
 
-    public MemcachedUtil getInstance() {
+    public static MemcachedUtil getInstance() {
         return MemcachedUtilSingletonHolder.instance;
     }
 
     public void set(String key, Object value, int exp) {
+        System.out.println(key + ":" + value.toString());
         memcachedClient.set(key, exp, value);
     }
     public Object get(String key) {
+        System.out.println(key);
         return memcachedClient.get(key);
     }
 

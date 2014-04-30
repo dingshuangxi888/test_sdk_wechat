@@ -2,7 +2,7 @@ package biz.bbtec.ncwc.controller;
 
 import biz.bbtec.ncwc.model.DeviceOpen;
 import biz.bbtec.ncwc.model.LastUpdateAndOffsetAndAddress;
-import biz.bbtec.ncwc.service.ncws.AddressService;
+import biz.bbtec.ncwc.service.ncws.GeoService;
 import biz.bbtec.ncwc.service.ncws.LocationService;
 import biz.bbtec.ncwc.service.ncws.OffsetService;
 import biz.bbtec.ncwc.service.ncws.WechatUserService;
@@ -28,7 +28,7 @@ public class LocationController {
     private OffsetService offsetService;
 
     @Autowired
-    private AddressService addressService;
+    private GeoService addressService;
 
     @Autowired
     private WechatUserService wechatUserService;
@@ -41,7 +41,7 @@ public class LocationController {
         LastUpdate2 lastUpdate = locationService.getLastUpdate(deviceOpen.getDeviceid(), session);
         if (lastUpdate != null) {
             OffsetResult offsetResult = offsetService.getGoogleOffset((float)lastUpdate.getLatitude(), (float)lastUpdate.getLongitude());
-            String address = addressService.getAddress((float)lastUpdate.getLatitude(), (float)lastUpdate.getLongitude());
+            String address = addressService.getGeo((float)lastUpdate.getLatitude(), (float)lastUpdate.getLongitude());
             result = new LastUpdateAndOffsetAndAddress(lastUpdate, offsetResult, address);
         }
         return result;

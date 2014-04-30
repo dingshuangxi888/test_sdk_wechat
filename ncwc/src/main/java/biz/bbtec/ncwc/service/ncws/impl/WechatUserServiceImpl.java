@@ -1,6 +1,7 @@
 package biz.bbtec.ncwc.service.ncws.impl;
 
 import biz.bbtec.ncwc.service.ncws.WechatUserService;
+import biz.bbtec.ncwc.util.MemcachedUtil;
 import biz.bbtec.ncwc.util.NCWS_URL;
 import com.bbtech.ncws.JSONFormatter;
 import com.bbtech.ncws.JSONParser;
@@ -49,17 +50,23 @@ public class WechatUserServiceImpl implements WechatUserService {
 
     @Override
     public String getSession(String openid) {
-        String result = null;
-        try {
-            String req = JSONFormatter.formatWeChatSession(openid);
-            String resp = HttpUtil.getHttpInstance().post(NCWS_URL.WECHAT_SESSION, req);
-            WeChatSession weChatSession = JSONParser.parseWeChatSession(resp);
-            if (weChatSession != null) {
-                result = weChatSession.getSession();
+        String result = (String) MemcachedUtil.getInstance().get("NCWC_SESSION_" + openid);
+        if (result == null) {
+            try {
+                String req = JSONFormatter.formatWeChatSession(openid);
+                String resp = HttpUtil.getHttpInstance().post(NCWS_URL.WECHAT_SESSION, req);
+                WeChatSession weChatSession = JSONParser.parseWeChatSession(resp);
+                if (weChatSession != null) {
+                    result = weChatSession.getSession();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
+            if (result != null && !result.isEmpty()) {
+                MemcachedUtil.getInstance().set("NCWC_SESSION_" + openid, result, 24 * 60 * 60);
+            }
         }
+
         return result;
     }
 }
