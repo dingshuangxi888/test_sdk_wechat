@@ -1,8 +1,8 @@
 package biz.bbtec.ncwc.controller;
 
 import biz.bbtec.ncwc.model.WechatUser;
-import biz.bbtec.ncwc.service.ncws.WechatUserService;
 import biz.bbtec.ncwc.service.ncws.LoginService;
+import biz.bbtec.ncwc.service.ncws.WechatUserService;
 import com.bbtech.ncws.UserLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

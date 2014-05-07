@@ -40,8 +40,8 @@ public class LocationController {
         String session = wechatUserService.getSession(deviceOpen.getOpenid());
         LastUpdate2 lastUpdate = locationService.getLastUpdate(deviceOpen.getDeviceid(), session);
         if (lastUpdate != null) {
-            OffsetResult offsetResult = offsetService.getGoogleOffset((float)lastUpdate.getLatitude(), (float)lastUpdate.getLongitude());
-            String address = addressService.getGeo((float)lastUpdate.getLatitude(), (float)lastUpdate.getLongitude());
+            OffsetResult offsetResult = offsetService.getGoogleOffset((float) lastUpdate.getLatitude(), (float) lastUpdate.getLongitude());
+            String address = addressService.getGeo((float) lastUpdate.getLatitude(), (float) lastUpdate.getLongitude());
             result = new LastUpdateAndOffsetAndAddress(lastUpdate, offsetResult, address);
         }
         return result;

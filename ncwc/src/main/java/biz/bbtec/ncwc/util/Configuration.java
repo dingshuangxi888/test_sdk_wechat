@@ -12,6 +12,7 @@ public class Configuration {
     public static String URL_NCWS;
     public static String MEMCACHED_SERVERS;
     public static int DEVICE_LIST_PAGE_SIZE;
+    public static String NCWC_URL_DNS;
 
     static {
         InputStream in = null;
@@ -22,6 +23,7 @@ public class Configuration {
             URL_NCWS = properties.getProperty("URL_NCWS");
             MEMCACHED_SERVERS = properties.getProperty("MEMCACHED_SERVERS");
             DEVICE_LIST_PAGE_SIZE = Integer.parseInt(properties.getProperty("DEVICE_LIST_PAGE_SIZE"));
+            NCWC_URL_DNS = properties.getProperty("NCWC_URL_DNS");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

@@ -28,8 +28,6 @@ public class WeChatExecutor {
     public static void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String result = null;
 
-        logger.info(request.getQueryString());
-
         String signature = request.getParameter("signature");
         String timestamp = request.getParameter("timestamp");
         String nonce = request.getParameter("nonce");
@@ -65,7 +63,7 @@ public class WeChatExecutor {
     }
 
     public static String doPost(String xmlMessage) {
-        logger.info("Message from wechat user {}", xmlMessage);
+        logger.info("Message from wechat user \n{}", xmlMessage);
         String result = null;
 
         AllRequestMessage requestMessage = WeChatUtil.parseRequestMessage(xmlMessage);
@@ -116,7 +114,7 @@ public class WeChatExecutor {
             e.printStackTrace();
         }
 
-        logger.info("Message response to wechat user {}", result);
+        logger.info("Message response to wechat user \n{}", result);
         return result;
     }
 }

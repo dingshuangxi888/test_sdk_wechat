@@ -31,4 +31,7 @@ public class NCWS_URL {
     public static final java.lang.String WECHAT_REGISTER = Configuration.URL_NCWS + "wechat/register";
     public static final java.lang.String WECHAT_UNREGISTER = Configuration.URL_NCWS + "wechat/unregister";
     public static final java.lang.String WECHAT_SESSION = Configuration.URL_NCWS + "wechat/session";
+    public static final java.lang.String WECHAT_SHORT_URL = Configuration.URL_NCWS + "wechat/shortUrl";
+    public static final java.lang.String WECHAT_RAW_URL = Configuration.URL_NCWS + "wechat/rawUrl";
+    public static final java.lang.String WECHAT_SHORT_URLS = Configuration.URL_NCWS + "wechat/shortUrls";
 }

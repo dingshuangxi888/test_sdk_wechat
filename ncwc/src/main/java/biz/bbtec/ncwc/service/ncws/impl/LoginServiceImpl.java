@@ -2,8 +2,6 @@ package biz.bbtec.ncwc.service.ncws.impl;
 
 import biz.bbtec.ncwc.service.ncws.LoginService;
 import biz.bbtec.ncwc.util.NCWS_URL;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.bbtech.ncws.JSONFormatter;
 import com.bbtech.ncws.JSONParser;
 import com.bbtech.ncws.UserLogin;

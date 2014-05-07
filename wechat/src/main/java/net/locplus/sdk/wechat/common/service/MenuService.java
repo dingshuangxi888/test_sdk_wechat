@@ -24,6 +24,7 @@ public class MenuService {
     public String createMenu(Menu menu) {
         String url = String.format(URL_MENU_CREATE, AccessTokenService.getInstance().getAccessToken());
         String json = JSON.toJSONString(menu);
+        System.out.println(json);
         return HttpUtil.getHttpsInstance().post(url, json);
     }
 

@@ -1,8 +1,8 @@
 package biz.bbtec.ncwc.handler.event.click;
 
 import biz.bbtec.ncwc.handler.common.NoBindHelper;
+import biz.bbtec.ncwc.service.ncws.ServiceSingletonFactory;
 import biz.bbtec.ncwc.service.ncws.WechatUserService;
-import biz.bbtec.ncwc.service.ncws.impl.WechatUserServiceImpl;
 import biz.bbtec.ncwc.util.MemcachedUtil;
 import net.locplus.sdk.wechat.handler.MsgTypes;
 import net.locplus.sdk.wechat.model.req.event.ClickEventRequestMessage;
@@ -14,7 +14,7 @@ import net.locplus.sdk.wechat.model.resp.TextResponseMessage;
  */
 public class UnbindUserClickEventHandlerState implements ClickEventHandlerState {
 
-    private WechatUserService wechatUserService = new WechatUserServiceImpl();
+    private WechatUserService wechatUserService = ServiceSingletonFactory.getWechatUserService();
 
     @Override
     public BaseResponseMessage handle(ClickEventRequestMessage requestMessage) {

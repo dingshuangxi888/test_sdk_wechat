@@ -11,4 +11,8 @@
     <context:component-scan base-package="biz.bbtec.ncwc">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
+
+    <beans>
+        <bean name="weChatExecutor" class="net.locplus.sdk.wechat.servlet.WeChatExecutor"></bean>
+    </beans>
 </beans>

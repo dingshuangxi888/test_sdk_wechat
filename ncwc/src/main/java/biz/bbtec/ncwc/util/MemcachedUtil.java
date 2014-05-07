@@ -28,6 +28,7 @@ public class MemcachedUtil {
         System.out.println(key + ":" + value.toString());
         memcachedClient.set(key, exp, value);
     }
+
     public Object get(String key) {
         System.out.println(key);
         return memcachedClient.get(key);

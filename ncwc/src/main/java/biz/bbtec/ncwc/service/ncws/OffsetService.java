@@ -1,7 +1,6 @@
 package biz.bbtec.ncwc.service.ncws;
 
 import com.bbtech.ncws.LatLng;
-import com.bbtech.ncws.LatLon;
 import com.bbtech.ncws.OffsetResult;
 
 import java.util.List;

@@ -16,7 +16,7 @@
         <wechat.version>1.0-SNAPSHOT</wechat.version>
         <jackson.version>1.9.12</jackson.version>
         <junit.version>4.11</junit.version>
-        <ncws.version>1.4</ncws.version>
+        <ncws.version>1.7</ncws.version>
         <ncws.classifier>bbtec</ncws.classifier>
         <spymemcached.version>2.11.1</spymemcached.version>
     </properties>

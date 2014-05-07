@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Location on Map</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+        html, body, #map-canvas {
+            height: 100%;
+            margin: 0px;
+            padding: 0px
+        }
+    </style>
+
+</head>
+<body>
+<div id="map-canvas"></div>
+
+<script src="js/jquery-1.11.0.js"></script>
+<script src="http://maps.googleapis.com/maps/api/js?v=3.13?key=AIzaSyBZDh63rJym1VeIn2wSbdFO_xCjlcnNq9M&sensor=false"></script>
+<script src="js/main.js"></script>
+<script>
+    google.maps.visualRefresh = true;
+    var map;
+    $(function () {
+
+        var data = new Object();
+        data.deviceid = getUrlParam("deviceid");
+        data.name = getUrlParam("name");
+        data.time = getUrlParam("time");
+        var coordinate = getUrlParam("coordinate");
+        var coord = coordinate.split(",");
+        data.lat = coord[0];
+        data.lon = coord[1];
+        data.alt = coord[2];
+        data.cep = coord[3];
+        var offset = getUrlParam("offset");
+        var off = offset.split(",");
+        data.off_lat = off[0];
+        data.off_lon = off[1];
+        data.address = getUrlParam("address");
+
+        initMap(data.off_lat, data.off_lon);
+
+        var latLng = new google.maps.LatLng(data.off_lat, data.off_lon);
+        var marker = placeMarker(latLng)
+        var infowindow = placeInfoWindow(data);
+        infowindow.open(map, marker);
+
+        google.maps.event.addListener(marker, 'click', function() {
+            infowindow.open(map, marker);
+        });
+    });
+
+    function initMap(lat, lon) {
+        var mapOptions = {
+            zoom: 14,
+            center: new google.maps.LatLng(lat, lon)
+        };
+        map = new google.maps.Map(document.getElementById('map-canvas'),
+                mapOptions);
+    }
+
+    var placeMarker = function (latLng) {
+        var marker = new google.maps.Marker({
+            position: latLng,
+            map: map
+        });
+        return marker;
+    }
+
+    var placeInfoWindow = function (data) {
+        var content = "<div>设备编号:" + data.deviceid + "<br>设备名称:" + data.name + "<br>纬度:" + data.lat + "  经度:" + data.lon + "  高度:" + data.alt + "<br>更新时间:" + data.time + "<br>精度:" + data.cep + "m<br>地址:" + data.address + "</div>";
+        var infowindow = new google.maps.InfoWindow({
+            content: content,
+            maxWidth: 300
+        });
+        return infowindow;
+    }
+
+</script>
+</body>
+</html>

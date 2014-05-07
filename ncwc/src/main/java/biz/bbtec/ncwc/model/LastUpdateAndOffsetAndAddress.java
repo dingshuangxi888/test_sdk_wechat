@@ -1,6 +1,5 @@
 package biz.bbtec.ncwc.model;
 
-import com.bbtech.ncws.AddressResult;
 import com.bbtech.ncws.LastUpdate2;
 import com.bbtech.ncws.OffsetResult;
 

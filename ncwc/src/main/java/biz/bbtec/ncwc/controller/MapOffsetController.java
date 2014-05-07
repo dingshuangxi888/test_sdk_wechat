@@ -1,7 +1,6 @@
 package biz.bbtec.ncwc.controller;
 
 import biz.bbtec.ncwc.service.ncws.OffsetService;
-import com.bbtech.ncws.LatLng;
 import com.bbtech.ncws.LatLon;
 import com.bbtech.ncws.OffsetResult;
 import org.springframework.stereotype.Controller;

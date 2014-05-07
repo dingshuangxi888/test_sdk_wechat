@@ -1,24 +1,18 @@
 package biz.bbtec.ncwc.handler.event.click;
 
-import biz.bbtec.ncwc.handler.common.HelpHandler;
+import biz.bbtec.ncwc.handler.common.DeviceListMessageFormat;
 import biz.bbtec.ncwc.handler.common.NoBindHelper;
-import biz.bbtec.ncwc.service.ncws.DeviceService;
-import biz.bbtec.ncwc.service.ncws.GeoService;
-import biz.bbtec.ncwc.service.ncws.OffsetService;
-import biz.bbtec.ncwc.service.ncws.WechatUserService;
-import biz.bbtec.ncwc.service.ncws.impl.DeviceServiceImpl;
-import biz.bbtec.ncwc.service.ncws.impl.GeoServiceImpl;
-import biz.bbtec.ncwc.service.ncws.impl.OffsetServiceImpl;
-import biz.bbtec.ncwc.service.ncws.impl.WechatUserServiceImpl;
+import biz.bbtec.ncwc.service.ncws.*;
 import biz.bbtec.ncwc.util.Configuration;
 import biz.bbtec.ncwc.util.MemcachedUtil;
-import com.bbtech.ncws.*;
+import com.bbtech.ncws.DeviceList2;
 import net.locplus.sdk.wechat.handler.MsgTypes;
 import net.locplus.sdk.wechat.model.req.event.ClickEventRequestMessage;
 import net.locplus.sdk.wechat.model.resp.BaseResponseMessage;
 import net.locplus.sdk.wechat.model.resp.TextResponseMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,10 +20,14 @@ import java.util.List;
  */
 public class GetDeviceListClickEventHandlerState implements ClickEventHandlerState {
 
-    private WechatUserService wechatUserService = new WechatUserServiceImpl();
-    private DeviceService deviceService = new DeviceServiceImpl();
-    private GeoService geoService = new GeoServiceImpl();
-    private OffsetService offsetService = new OffsetServiceImpl();
+    private final static Logger logger = LoggerFactory.getLogger(GetDeviceListClickEventHandlerState.class);
+
+    private WechatUserService wechatUserService = ServiceSingletonFactory.getWechatUserService();
+    private DeviceService deviceService = ServiceSingletonFactory.getDeviceService();
+    private GeoService geoService = ServiceSingletonFactory.getGeoService();
+    private OffsetService offsetService = ServiceSingletonFactory.getOffsetService();
+    private ShortUrlService shortUrlService = ServiceSingletonFactory.getShortUrlService();
+
     @Override
     public BaseResponseMessage handle(ClickEventRequestMessage requestMessage) {
         TextResponseMessage responseMessage = new TextResponseMessage();
@@ -40,42 +38,28 @@ public class GetDeviceListClickEventHandlerState implements ClickEventHandlerSta
             return NoBindHelper.remember(requestMessage);
         }
 
+        // Get device list at page=0
         List<DeviceList2> list = deviceService.getDeviceList(session, 0, 8, Configuration.DEVICE_LIST_PAGE_SIZE);
+        logger.info("Get device list page = 0");
 
         responseMessage.setToUserName(requestMessage.getFromUserName());
         responseMessage.setFromUserName(requestMessage.getToUserName());
         responseMessage.setCreateTime(System.currentTimeMillis());
 
-        StringBuilder sb = new StringBuilder();
+        String content = null;
         if (list != null && !list.isEmpty()) {
 
+            // Reset next device list page=1
             MemcachedUtil.getInstance().set("NCWC_DEVICE_LIST_PAGE_NO_" + requestMessage.getFromUserName(), 1, 60 * 5);
+            logger.info("Reset next device list page = 1");
 
-            List<LatLon> latLons = new ArrayList<>();
-            List<LatLng> latLngs = new ArrayList<>();
-            for (DeviceList2 deviceList : list) {
-                latLons.add(new LatLon(deviceList.getLatitude(), deviceList.getLongitude()));
-                latLngs.add(new LatLng(deviceList.getLatitude(), deviceList.getLongitude()));
-            }
-            List<AddressResult> addressResults = geoService.getMultiGeo(latLons);
-            List<OffsetResult> offsetResults = offsetService.getGoogleMultiOffset(latLngs);
+            content = DeviceListMessageFormat.format(list);
 
-            DeviceList2 deviceListVO = null;
-            for (int i = 0; i < list.size(); i++) {
-                deviceListVO = list.get(i);
-                sb.append(deviceListVO.getDeviceId()).append("\n");
-                sb.append(deviceListVO.getName()).append("\n");
-                sb.append(deviceListVO.getTime()).append("\n");
-                sb.append("<a href=\"http://wx.bbtec.biz/resources/map.html?deviceid=")
-                        .append(deviceListVO.getDeviceId()).append("&").append("openid=").append(requestMessage.getFromUserName()).append("\">")
-                        .append(addressResults.get(i).getAddress()).append("</a>").append("\n");
-                sb.append("------------------------------------------------\n");
-            }
         } else {
-            sb.append("该账户下没有设备，请登录<a href=\"http://ncui.bblbs.net\">桌面版</a>添加");
+            content = "该账户下没有设备，请登录<a href=\"http://ncui.bblbs.net\">桌面版</a>添加";
         }
 
-        responseMessage.setContent(sb.toString());
+        responseMessage.setContent(content);
         responseMessage.setMsgType(MsgTypes.TEXT.getType());
 
         return responseMessage;

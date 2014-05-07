@@ -1,12 +1,10 @@
 package biz.bbtec.ncwc.service.ncws.impl;
 
 import biz.bbtec.ncwc.service.ncws.LocationService;
-import biz.bbtec.ncwc.service.ncws.LoginService;
 import biz.bbtec.ncwc.util.NCWS_URL;
 import com.bbtech.ncws.JSONFormatter;
 import com.bbtech.ncws.JSONParser;
 import com.bbtech.ncws.LastUpdate2;
-import com.bbtech.ncws.UserLogin;
 import net.locplus.sdk.wechat.util.HttpUtil;
 import org.json.JSONException;
 import org.springframework.stereotype.Service;
