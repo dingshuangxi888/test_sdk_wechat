@@ -5,41 +5,51 @@
 <web-app>
     <!--<display-name>ncwc</display-name>-->
 
-
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath*:spring-*.xml</param-value>
     </context-param>
 
     <!-- Character Encoding -->
-    <!--<filter>-->
-    <!--<filter-name>encoding-filter</filter-name>-->
-    <!--<filter-class>-->
-    <!--org.springframework.web.filter.CharacterEncodingFilter-->
-    <!--</filter-class>-->
-    <!--<init-param>-->
-    <!--<param-name>encoding</param-name>-->
-    <!--<param-value>UTF-8</param-value>-->
-    <!--</init-param>-->
-    <!--<init-param>-->
-    <!--<param-name>forceEncoding</param-name>-->
-    <!--<param-value>true</param-value>-->
-    <!--</init-param>-->
-    <!--</filter>-->
-    <!--<filter-mapping>-->
-    <!--<filter-name>encoding-filter</filter-name>-->
-    <!--<url-pattern>/*</url-pattern>-->
-    <!--</filter-mapping>-->
+    <filter>
+        <filter-name>encoding-filter</filter-name>
+        <filter-class>
+            org.springframework.web.filter.CharacterEncodingFilter
+        </filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>encoding-filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
-    <!-- wechat filter -->
-    <!--<filter>-->
-    <!--<filter-name>WeChatFilter</filter-name>-->
-    <!--<filter-class>net.locplus.sdk.wechat.servlet.WeChatFilter</filter-class>-->
-    <!--</filter>-->
-    <!--<filter-mapping>-->
-    <!--<filter-name>WeChatFilter</filter-name>-->
-    <!--<url-pattern>/wechat/*</url-pattern>-->
-    <!--</filter-mapping>-->
+    <!--wechat filter -->
+    <!--
+    <filter>
+    <filter-name>WeChatFilter</filter-name>
+    <filter-class>net.locplus.sdk.wechat.servlet.WeChatFilter</filter-class>
+    </filter>
+    <filter-mapping>
+    <filter-name>WeChatFilter</filter-name>
+    <url-pattern>/wechat/*</url-pattern>
+    </filter-mapping>
+    -->
+
+    <servlet>
+        <servlet-name>ShortUrlServlet</servlet-name>
+        <servlet-class>biz.bbtec.ncwc.ShortUrlServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShortUrlServlet</servlet-name>
+        <url-pattern>/short</url-pattern>
+    </servlet-mapping>
 
     <!-- Spring Core -->
     <listener>

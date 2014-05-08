@@ -2,31 +2,55 @@ package biz.bbtec.ncwc.handler.common;
 
 import biz.bbtec.ncwc.service.ncws.ServiceSingletonFactory;
 import biz.bbtec.ncwc.util.Configuration;
+import biz.bbtec.ncwc.util.ThreadPoolUtil;
 import com.bbtech.ncws.*;
+import com.sun.scenario.effect.Offset;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 /**
  * Created by Administrator on 2014/5/7.
  */
 public class DeviceListMessageFormat {
 
-    public static String format(List<DeviceList2> list) {
+    public static String format(List<DeviceList2> list) throws ExecutionException, InterruptedException {
         StringBuilder sb = new StringBuilder();
 
-        List<LatLon> latLons = new ArrayList<>();
-        List<LatLng> latLngs = new ArrayList<>();
+        final List<LatLon> latLons = new ArrayList<>();
+        final List<LatLng> latLngs = new ArrayList<>();
         for (DeviceList2 deviceList : list) {
             latLons.add(new LatLon(deviceList.getLatitude(), deviceList.getLongitude()));
             latLngs.add(new LatLng(deviceList.getLatitude(), deviceList.getLongitude()));
         }
+
+        FutureTask<List<AddressResult>> addressResultsFutrue = new FutureTask<>(new Callable<List<AddressResult>>() {
+            @Override
+            public List<AddressResult> call() throws Exception {
+                return ServiceSingletonFactory.getGeoService().getMultiGeo(latLons);
+            }
+        });
+
+        ThreadPoolUtil.getPool().execute(addressResultsFutrue);
+
+        FutureTask<List<OffsetResult>> offsetResultsFuture = new FutureTask<>(new Callable<List<OffsetResult>>() {
+            @Override
+            public List<OffsetResult> call() throws Exception {
+                return ServiceSingletonFactory.getOffsetService().getGoogleMultiOffset(latLngs);
+            }
+        });
+
+        ThreadPoolUtil.getPool().execute(offsetResultsFuture);
+
         //Get address for Device list
-        List<AddressResult> addressResults = ServiceSingletonFactory.getGeoService().getMultiGeo(latLons);
+        List<AddressResult> addressResults = addressResultsFutrue.get();
         //Get offset for Device list
-        List<OffsetResult> offsetResults = ServiceSingletonFactory.getOffsetService().getGoogleMultiOffset(latLngs);
+        List<OffsetResult> offsetResults = offsetResultsFuture.get();
 
         // Convert long urls to short urls
         List<String> longUrls = new ArrayList<>();

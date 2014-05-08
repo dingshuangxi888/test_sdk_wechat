@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Dean on 2014/4/29.
@@ -29,6 +30,9 @@ public class MoreDeviceListClickEventHandlerState implements ClickEventHandlerSt
 
     @Override
     public BaseResponseMessage handle(ClickEventRequestMessage requestMessage) {
+
+        long start = System.currentTimeMillis();
+
         TextResponseMessage responseMessage = new TextResponseMessage();
 
         String session = wechatUserService.getSession(requestMessage.getFromUserName());
@@ -52,7 +56,12 @@ public class MoreDeviceListClickEventHandlerState implements ClickEventHandlerSt
             MemcachedUtil.getInstance().set("NCWC_DEVICE_LIST_PAGE_NO_" + requestMessage.getFromUserName(), pageNo + 1, 60 * 5);
             logger.info("Set device list page = {}", pageNo + 1);
 
-            content = DeviceListMessageFormat.format(list);
+            try {
+                content = DeviceListMessageFormat.format(list);
+            } catch (Exception e) {
+                content = "获取失败，请稍后再试！";
+                logger.info("format device list message error: {}", e.getMessage());
+            }
 
         } else {
             content = "没有更多设备列表，您可点击【获取列表】重新获取";
@@ -60,6 +69,8 @@ public class MoreDeviceListClickEventHandlerState implements ClickEventHandlerSt
 
         responseMessage.setContent(content);
         responseMessage.setMsgType(MsgTypes.TEXT.getType());
+
+        logger.info("Using time for more device list is {}ms", (System.currentTimeMillis() - start));
         return responseMessage;
     }
 }
