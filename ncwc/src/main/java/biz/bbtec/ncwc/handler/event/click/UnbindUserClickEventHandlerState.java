@@ -32,7 +32,7 @@ public class UnbindUserClickEventHandlerState implements ClickEventHandlerState 
         boolean unbindSuccess = wechatUserService.unbind(requestMessage.getFromUserName());
         if (unbindSuccess) {
             MemcachedUtil.getInstance().remove("NCWC_SESSION_" + requestMessage.getFromUserName());
-            responseMessage.setContent("解除绑定成功，点击“菜单-》更多...-》绑定账户”可重新绑定...");
+            responseMessage.setContent("解除绑定成功，点击菜单【更多】->【绑定账户】可重新绑定...");
         } else {
             responseMessage.setContent("对不起，解除绑定失败，请稍后再试...");
         }

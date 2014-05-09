@@ -6,7 +6,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>biz.bbtec.project</groupId>
+    <groupId>biz.bbtec</groupId>
     <artifactId>ncwc</artifactId>
     <packaging>war</packaging>
     <name>ncwc Maven Webapp</name>

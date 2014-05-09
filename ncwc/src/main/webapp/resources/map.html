@@ -24,29 +24,41 @@
     var map;
     $(function () {
 
-        initialize();
-        var deviceid = getUrlParam("deviceid");
-        var openid = getUrlParam("openid");
-        showDeviceLastLocation(deviceid, openid);
+        var data = new Object();
+        data.deviceid = getUrlParam("deviceid");
+        data.name = getUrlParam("name");
+        data.time = getUrlParam("time");
+        var coordinate = getUrlParam("coordinate");
+        var coord = coordinate.split(",");
+        data.lat = coord[0];
+        data.lon = coord[1];
+        data.alt = coord[2];
+        data.cep = coord[3];
+        var offset = getUrlParam("offset");
+        var off = offset.split(",");
+        data.off_lat = off[0];
+        data.off_lon = off[1];
+        data.address = getUrlParam("address");
+
+        initMap(data.off_lat, data.off_lon);
+
+        var latLng = new google.maps.LatLng(data.off_lat, data.off_lon);
+        var marker = placeMarker(latLng)
+        var infowindow = placeInfoWindow(data);
+        infowindow.open(map, marker);
+
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.open(map, marker);
+        });
     });
-    function initialize() {
+
+    function initMap(lat, lon) {
         var mapOptions = {
-            zoom: 3,
-            center: new google.maps.LatLng(0, 0)
+            zoom: 14,
+            center: new google.maps.LatLng(lat, lon)
         };
         map = new google.maps.Map(document.getElementById('map-canvas'),
                 mapOptions);
-    }
-
-    var showDeviceLastLocation = function (deviceid, openid) {
-        $.post("../loc/last", {'deviceid': deviceid, 'openid': openid}, function (data) {
-            var latLng = new google.maps.LatLng(data.offsetResult.latitudeOffset + data.lastUpdate.latitude, data.offsetResult.longitudeOffset + data.lastUpdate.longitude);
-            var marker = placeMarker(latLng);
-            var infowindow = placeInfoWindow(data);
-            infowindow.open(map, marker);
-            map.setCenter(latLng);
-            map.setZoom(14);
-        });
     }
 
     var placeMarker = function (latLng) {
@@ -58,10 +70,10 @@
     }
 
     var placeInfoWindow = function (data) {
-        var content = "<div>设备编号:" + data.lastUpdate.deviceId + "<br>设备名称:" + data.lastUpdate.name + "<br>纬度:" + data.lastUpdate.latitude + "  经度:" + data.lastUpdate.longitude + "  高度:" + data.lastUpdate.altitude + "<br>更新时间:" + data.lastUpdate.time + "<br>精度:" + data.lastUpdate.accuracy + "m<br>地址:" + data.address + "<br>定位类型:" + data.lastUpdate.type + "</div>";
+        var content = "<div>设备编号:" + data.deviceid + "<br>设备名称:" + data.name + "<br>纬度:" + data.lat + "  经度:" + data.lon + "  高度:" + data.alt + "<br>更新时间:" + data.time + "<br>精度:" + data.cep + "m<br>地址:" + data.address + "</div>";
         var infowindow = new google.maps.InfoWindow({
-            content: content,
-            maxWidth: 300
+            content: content
+//            maxWidth: 300
         });
         return infowindow;
     }

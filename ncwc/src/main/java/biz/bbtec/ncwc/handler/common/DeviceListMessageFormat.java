@@ -4,10 +4,7 @@ import biz.bbtec.ncwc.service.ncws.ServiceSingletonFactory;
 import biz.bbtec.ncwc.util.Configuration;
 import biz.bbtec.ncwc.util.ThreadPoolUtil;
 import com.bbtech.ncws.*;
-import com.sun.scenario.effect.Offset;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -57,20 +54,16 @@ public class DeviceListMessageFormat {
         for (int i = 0; i < list.size(); i++) {
             DeviceList2 deviceList2 = list.get(i);
             StringBuilder urlSb = null;
-            try {
-                urlSb = new StringBuilder(Configuration.NCWC_URL_DNS)
-                        .append("resources/map.html?")
-                        .append("deviceid=").append(deviceList2.getDeviceId())
-                        .append("&name=").append(deviceList2.getName())
-                        .append("&time=").append(deviceList2.getTime())
-                        .append("&coordinate=").append(deviceList2.getLatitude()).append(",").append(deviceList2.getLongitude())
-                        .append(",").append(deviceList2.getAltitude()).append(",").append(deviceList2.getAccuracy())
-                        .append("&offset=").append(deviceList2.getLatitude() + offsetResults.get(i).getLatitudeOffset())
-                        .append(",").append(deviceList2.getLongitude() + offsetResults.get(i).getLongitudeOffset())
-                        .append("&address=").append(URLEncoder.encode(addressResults.get(i).getAddress(), "UTF-8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+            urlSb = new StringBuilder(Configuration.NCWC_URL_DNS)
+                    .append("resources/map.html?")
+                    .append("deviceid=").append(deviceList2.getDeviceId())
+                    .append("&name=").append(deviceList2.getName())
+                    .append("&time=").append(deviceList2.getTime())
+                    .append("&coordinate=").append(deviceList2.getLatitude()).append(",").append(deviceList2.getLongitude())
+                    .append(",").append(deviceList2.getAltitude()).append(",").append(deviceList2.getAccuracy())
+                    .append("&offset=").append(deviceList2.getLatitude() + offsetResults.get(i).getLatitudeOffset())
+                    .append(",").append(deviceList2.getLongitude() + offsetResults.get(i).getLongitudeOffset())
+                    .append("&address=").append(addressResults.get(i).getAddress());
             longUrls.add(urlSb.toString());
         }
         List<String> shortUrls = ServiceSingletonFactory.getShortUrlService().toShortUrls(longUrls);

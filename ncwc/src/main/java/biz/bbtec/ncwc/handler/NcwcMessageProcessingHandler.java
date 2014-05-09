@@ -1,10 +1,7 @@
 package biz.bbtec.ncwc.handler;
 
 import biz.bbtec.ncwc.handler.event.click.*;
-import biz.bbtec.ncwc.handler.text.HelpTextHandlerState;
-import biz.bbtec.ncwc.handler.text.SearchDeviceTextHandlerState;
-import biz.bbtec.ncwc.handler.text.TextHandlerContext;
-import biz.bbtec.ncwc.handler.text.TextHandlerState;
+import biz.bbtec.ncwc.handler.text.*;
 import net.locplus.sdk.wechat.handler.MessageProcessingHandler;
 import net.locplus.sdk.wechat.model.req.event.*;
 import net.locplus.sdk.wechat.model.req.normal.*;
@@ -30,9 +27,10 @@ public class NcwcMessageProcessingHandler implements MessageProcessingHandler {
         String content = requestMessage.getContent();
         if (content.startsWith("搜索") || content.toLowerCase().startsWith("search")) {
             state = new SearchDeviceTextHandlerState();
-        }
-        if ("帮助".equals(content) || "?".equals(content) || "？".equals(content) || "help".equalsIgnoreCase(content)) {
+        } else if ("帮助".equals(content) || "?".equals(content) || "？".equals(content) || "help".equalsIgnoreCase(content)) {
             state = new HelpTextHandlerState();
+        } else {
+            state = new UnknownTextHandlerState();
         }
 
         TextHandlerContext context = new TextHandlerContext(state);
@@ -75,18 +73,16 @@ public class NcwcMessageProcessingHandler implements MessageProcessingHandler {
         ClickEventHandlerState state = null;
         if ("GET_LIST".equals(event)) {
             state = new GetDeviceListClickEventHandlerState();
-        }
-        if ("MORE_LIST".equals(event)) {
+        } else if ("MORE_LIST".equals(event)) {
             state = new MoreDeviceListClickEventHandlerState();
-        }
-        if ("BIND_USER".equals(event)) {
+        } else if ("BIND_USER".equals(event)) {
             state = new BindUserClickEventHandlerState();
-        }
-        if ("UNBIND_USER".equals(event)) {
+        } else if ("UNBIND_USER".equals(event)) {
             state = new UnbindUserClickEventHandlerState();
-        }
-        if (state == null) {
+        } else if (state == null) {
             state = new GetHelpClickEventHandlerState();
+        } else {
+            state = new UnknowClickEventHandlerState();
         }
         ClickEventHandlerContext context = new ClickEventHandlerContext(state);
         this.responseMessage = context.request(requestMessage);
