@@ -1596,7 +1596,7 @@
                             }
 
                             // numeric x and y parameters for Expr.filter.CHILD
-                            // remember that false/true cast respectively to 0/1
+                            // noBindRemember that false/true cast respectively to 0/1
                             match[4] = +( match[4] ? match[5] + (match[6] || 1) : 2 * ( match[3] === "even" || match[3] === "odd" ) );
                             match[5] = +( ( match[7] + match[8] ) || match[3] === "odd" );
 

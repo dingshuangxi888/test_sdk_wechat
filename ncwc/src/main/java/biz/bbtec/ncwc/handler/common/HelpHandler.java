@@ -17,8 +17,8 @@ public class HelpHandler {
         responseMessage.setCreateTime(System.currentTimeMillis());
         StringBuilder sb = new StringBuilder();
         sb.append("您好，请按照以下回复选择服务：").append("\n\n");
-        sb.append("1、回复“搜索 【设备编号/名称】” 搜索设备").append("\n");
-        sb.append("2、回复“帮助/?” 获取帮助").append("\n");
+        sb.append("1、回复“搜索+设备编号或名称” 搜索设备").append("\n");
+        sb.append("2、回复“帮助或?” 获取帮助").append("\n");
         responseMessage.setContent(sb.toString());
         responseMessage.setMsgType(MsgTypes.TEXT.getType());
         return responseMessage;

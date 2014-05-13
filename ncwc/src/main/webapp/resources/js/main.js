@@ -21,6 +21,8 @@ var userBind = function () {
 
             div_alert.find("span").html("对不起，绑定失败，请重新输入...");
         }
+        $("#UserName").val("");
+        $("#Password").val("");
     });
 
     return false;

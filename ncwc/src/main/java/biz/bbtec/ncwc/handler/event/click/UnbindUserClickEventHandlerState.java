@@ -1,6 +1,6 @@
 package biz.bbtec.ncwc.handler.event.click;
 
-import biz.bbtec.ncwc.handler.common.NoBindHelper;
+import biz.bbtec.ncwc.handler.common.UserBindHelper;
 import biz.bbtec.ncwc.service.ncws.ServiceSingletonFactory;
 import biz.bbtec.ncwc.service.ncws.WechatUserService;
 import biz.bbtec.ncwc.util.MemcachedUtil;
@@ -22,7 +22,7 @@ public class UnbindUserClickEventHandlerState implements ClickEventHandlerState 
         String session = wechatUserService.getSession(requestMessage.getFromUserName());
 
         if (session == null || session.isEmpty()) {
-            return NoBindHelper.remember(requestMessage);
+            return UserBindHelper.noBindRemember(requestMessage);
         }
 
         TextResponseMessage responseMessage = new TextResponseMessage();

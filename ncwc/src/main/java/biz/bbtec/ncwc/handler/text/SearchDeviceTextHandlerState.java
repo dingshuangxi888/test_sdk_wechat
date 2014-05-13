@@ -1,6 +1,6 @@
 package biz.bbtec.ncwc.handler.text;
 
-import biz.bbtec.ncwc.handler.common.NoBindHelper;
+import biz.bbtec.ncwc.handler.common.UserBindHelper;
 import biz.bbtec.ncwc.service.ncws.*;
 import biz.bbtec.ncwc.util.Configuration;
 import biz.bbtec.ncwc.util.ThreadPoolUtil;
@@ -50,7 +50,7 @@ public class SearchDeviceTextHandlerState implements TextHandlerState {
         String session = wechatUserService.getSession(requestMessage.getFromUserName());
 
         if (session == null || session.isEmpty()) {
-            return NoBindHelper.remember(requestMessage);
+            return UserBindHelper.noBindRemember(requestMessage);
         }
 
         String content = requestMessage.getContent();
@@ -134,7 +134,7 @@ public class SearchDeviceTextHandlerState implements TextHandlerState {
 
             respContent = sb.toString();
         } catch (Exception e) {
-            content = "获取失败，请稍后再试！";
+            content = "您搜索的设备不存在，请重新输入！";
             logger.info("format device list message error: {}", e.getMessage());
         }
 

@@ -1,7 +1,7 @@
 package biz.bbtec.ncwc.handler.event.click;
 
 import biz.bbtec.ncwc.handler.common.DeviceListMessageFormat;
-import biz.bbtec.ncwc.handler.common.NoBindHelper;
+import biz.bbtec.ncwc.handler.common.UserBindHelper;
 import biz.bbtec.ncwc.service.ncws.*;
 import biz.bbtec.ncwc.util.Configuration;
 import biz.bbtec.ncwc.util.MemcachedUtil;
@@ -36,7 +36,7 @@ public class GetDeviceListClickEventHandlerState implements ClickEventHandlerSta
         String session = wechatUserService.getSession(requestMessage.getFromUserName());
 
         if (session == null || session.isEmpty()) {
-            return NoBindHelper.remember(requestMessage);
+            return UserBindHelper.noBindRemember(requestMessage);
         }
 
         // Get device list at page=0

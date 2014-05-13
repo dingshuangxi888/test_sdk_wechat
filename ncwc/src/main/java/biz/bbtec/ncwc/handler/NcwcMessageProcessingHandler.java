@@ -1,5 +1,6 @@
 package biz.bbtec.ncwc.handler;
 
+import biz.bbtec.ncwc.handler.common.UserBindHelper;
 import biz.bbtec.ncwc.handler.event.click.*;
 import biz.bbtec.ncwc.handler.text.*;
 import net.locplus.sdk.wechat.handler.MessageProcessingHandler;
@@ -100,7 +101,7 @@ public class NcwcMessageProcessingHandler implements MessageProcessingHandler {
 
     @Override
     public void onSubscribeEventMessageReceived(SubscribeEventRequestMessage requestMessage) {
-
+        this.responseMessage = UserBindHelper.BindRemember(requestMessage);
     }
 
     @Override

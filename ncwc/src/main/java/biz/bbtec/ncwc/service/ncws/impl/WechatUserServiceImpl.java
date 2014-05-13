@@ -9,6 +9,8 @@ import com.bbtech.ncws.Status;
 import com.bbtech.ncws.WeChatSession;
 import net.locplus.sdk.wechat.util.HttpUtil;
 import org.json.JSONException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class WechatUserServiceImpl implements WechatUserService {
+    private static final Logger logger = LoggerFactory.getLogger(WechatUserServiceImpl.class);
     @Override
     public boolean bind(String openid, String session) {
         boolean result = false;
@@ -27,7 +30,7 @@ public class WechatUserServiceImpl implements WechatUserService {
                 result = true;
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            logger.error("bind user error: {}", e.getMessage());
         }
         return result;
     }
@@ -43,7 +46,7 @@ public class WechatUserServiceImpl implements WechatUserService {
                 result = true;
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            logger.error("unbind user error: {}", e.getMessage());
         }
         return result;
     }
@@ -60,7 +63,7 @@ public class WechatUserServiceImpl implements WechatUserService {
                     result = weChatSession.getSession();
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                logger.error("get session from ncws error: {}", e.getMessage());
             }
             if (result != null && !result.isEmpty()) {
                 MemcachedUtil.getInstance().set("NCWC_SESSION_" + openid, result, 24 * 60 * 60);
