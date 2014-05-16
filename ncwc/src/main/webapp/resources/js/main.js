@@ -8,7 +8,7 @@ var userBind = function () {
         if ("SUCCESS" === data) {
             var div_alert = $("#user-bind-alert");
             div_alert.addClass("hidden")
-            div_alert.find("span").html("恭喜你，绑定成功！请点击【返回】进入微信公用平台...");
+            div_alert.find("span").html("恭喜你，绑定成功！请点击左上角【<】进入微信公共平台...");
             div_alert.removeClass("alert-danger")
             div_alert.addClass("alert-success");
             div_alert.removeClass("hidden")
